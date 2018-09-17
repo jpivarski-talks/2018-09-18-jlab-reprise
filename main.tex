@@ -652,19 +652,35 @@ very physics-specific
 
 \begin{frame}{Advanced histogramming}
 \Large
-\vspace{0.5 cm}
+\vspace{0.25 cm}
 The histograms themselves, however, are more sophisticated in particle physics software than elsewhere.
 
-\begin{itemize}
-\item 
+\large
+\begin{itemize}\setlength{\itemsep}{0.25 cm}
+\item<2-> As far as I have found, \underline{\it only} particle physics packages \textcolor{gray}{(ROOT, YODA, go-hep/hbook, AIDA, HippoDraw, Jas3, mn\_fit, PAW, HBOOK)} \\ conceive of histograms as containers to be filled.
 
+\vspace{0.25 cm}
+{\normalsize \textcolor{darkblue}{Exception:} Boost.Histogram, currently under review (Hans Dembinski, LHCb)}
 
+\item<3-> In non-physics packages, ``histogram'' is more of a display option than an analysis tool, with no way to access contents or control binnning.
 
+\item<4-> Profile plots are only in our tools.
+
+\item<5-> Good log-scale handling is hard to find, too.
 \end{itemize}
 
-
+\begin{center}
+\uncover<6->{\textcolor{red}{\Large These features are our responsibility.}}
+\end{center}
 \end{frame}
 
+\begin{frame}{}
+\huge
+\vspace{0.5 cm}
+\begin{center}
+\textcolor{darkblue}{Machine learning versus ansatz fitting}
+\end{center}
+\end{frame}
 
 
 
