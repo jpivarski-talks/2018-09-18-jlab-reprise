@@ -95,6 +95,139 @@
 \uncover<2->{More developers means more bug-fixes, more features, more connectors\ldots}
 \end{frame}
 
+\begin{frame}{Another important metric: experience!}
+\Large
+\vspace{0.25 cm}
+\begin{itemize}\setlength{\itemsep}{0.25 cm}
+\item Physicists have been performing big data analytics (reducing large datasets to statistical inferences) for about \textcolor{darkblue}{\underline{50 years}}.
+
+\item Web scale companies have been doing it for about \textcolor{darkblue}{\underline{10 years}}.
+\end{itemize}
+
+\vspace{0.5 cm}
+\uncover<2->{Nuclear and high-energy physics analysis is specialized and sophisticated--- many tools we'd call ``basic'' are not implemented in industry-grade software.}
+
+\vspace{0.5 cm}
+\uncover<3->{The simple prescription of ``just use Spark'' would leave analyzers without some necessary tools.}
+\end{frame}
+
+\begin{frame}{What should we do?}
+\large
+\vspace{0.5 cm}
+\begin{columns}[t]
+\column{0.25\linewidth}
+\textcolor{darkblue}{\underline{Option \#1}}
+
+\vspace{0.25 cm}
+All of our needs are specialized.
+
+\vspace{0.25 cm}
+Continue developing our own everything.
+
+\vspace{2.5 cm}
+
+\column{0.25\linewidth}
+\begin{uncoverenv}<2->
+\textcolor{darkblue}{\hspace{-0.18 cm}\underline{Option \#2}}
+
+\vspace{0.25 cm}
+Modern big data software has some good ideas; integrate those \underline{\it ideas} into our stack.
+\end{uncoverenv}
+
+\column{0.25\linewidth}
+\begin{uncoverenv}<3->
+\only<3-4>{\textcolor{darkblue}{\hspace{-0.18 cm}\underline{Option \#3}}}\only<5->{\textcolor{darkorange}{\hspace{-0.18 cm}\underline{Option \#3}}}
+
+\vspace{0.25 cm}
+\only<3-4>{Narrow our scope to domain-specific tools, what no one else is developing, and make them interoperate with non-physics tools for the common parts.}\only<5->{\textcolor{darkorange}{Narrow our scope to domain-specific tools, what no one else is developing, and make them interoperate with non-physics tools for the common parts.}}
+\end{uncoverenv}
+
+\column{0.25\linewidth}
+\begin{uncoverenv}<4->
+\textcolor{darkblue}{\hspace{-0.18 cm}\underline{Option \#4}}
+
+\vspace{0.25 cm}
+Convince the world to start using physics analysis techniques so that they will develop solutions for these, too.
+\end{uncoverenv}
+\end{columns}
+
+\vspace{0.5 cm}
+\uncover<5->{\textcolor{darkorange}{\bf \#3 is my opinion, but what's domain-specific and what's not?}}
+\end{frame}
+
+\begin{frame}{Three examples each:}
+\Large
+\vspace{-0.5 cm}
+\begin{columns}[t]
+\column{0.5\linewidth}
+\mbox{\hspace{0.25 cm}\textcolor{darkblue}{\underline{What web scale software's got}}}
+
+\vspace{0.25 cm}
+\begin{enumerate}
+\item Distributed DAG processing
+\item Indexed analysis
+\item Machine learning
+\end{enumerate}
+
+\column{0.5\linewidth}
+\mbox{\hspace{0.45 cm}\textcolor{darkblue}{\underline{What we need that it hasn't got}}}
+
+\vspace{0.25 cm}
+\begin{enumerate}
+\item Nested data structures
+\item Advanced histogramming
+\item Ansatz fitting
+\end{enumerate}
+
+\end{columns}
+\end{frame}
+
+\begin{frame}{}
+\huge
+\vspace{0.5 cm}
+\begin{center}
+\textcolor{darkblue}{Distributed DAG processing}
+
+\large
+\vspace{0.5 cm}
+not HEP-specific
+\end{center}
+\end{frame}
+
+\begin{frame}{Distributed DAG processing}
+\large
+\vspace{0.5 cm}
+\begin{columns}
+\column{0.21\linewidth}
+\includegraphics[width=\linewidth]{dag-htcondor.png}
+
+\column{0.83\linewidth}
+DAG: Directed Acyclic Graph of dependencies between subtasks.
+
+Some would say this is what big data processing \underline{\it is}.
+
+\vspace{0.5 cm}
+\begin{uncoverenv}<2->
+Many frameworks distribute work this way:
+
+\vspace{0.2 cm}
+\hfill \begin{minipage}{0.95\linewidth}
+\textcolor{darkblue}{Spark} (JVM), \textcolor{darkblue}{Dask}, \textcolor{darkblue}{Joblib}, \textcolor{darkblue}{Parsl} (Python), \textcolor{darkblue}{Storm} (continuous), \textcolor{darkblue}{Thrill} (C++), \textcolor{darkblue}{DAGMan} (HTCondor), \textcolor{darkblue}{TensorFlow} (fitting)\ldots
+\end{minipage}
+\end{uncoverenv}
+
+\vspace{0.5 cm}
+\begin{uncoverenv}<3->
+To use these frameworks, one must
+\begin{itemize}
+\item express user tasks as DAG nodes (e.g.\ ROOT RDataFrame);
+\item serialize user functions on the driver and load user data on the workers in accordance to the framework's way of doing things.
+\end{itemize}
+\end{uncoverenv}
+\end{columns}
+\end{frame}
+
+
 
 
 \end{document}
