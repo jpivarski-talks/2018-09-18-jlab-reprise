@@ -516,6 +516,116 @@ Fluidly convert between MultiIndexes and columns with {\normalsize\mintinline{py
 \textcolor{gray}{(Stop making arrays and {\normalsize\mintinline{python}{std::maps}} of TH3!)}
 \end{frame}
 
+\begin{frame}[fragile]{Indexed analysis}
+\large
+\vspace{0.25 cm}
+\hfill \includegraphics[height=1 cm]{histbook-logo.pdf}
+
+\vspace{-1 cm}
+\scriptsize
+\begin{onlyenv}<1>
+\scriptsize
+\begin{minted}{python}
+>>> from histbook import *
+>>> multihist = Hist(
+...     bin("mass", 100, 0, 500), cut("q1*q2 < 0"),
+...     split("mt1", [0.2, 0.5]), split("mt2", [0.2, 0.5]), fill=df)
+>>> multihist.pandas()
+\end{minted}
+\scriptsize
+\vspace{-0.25 cm}
+\begin{verbatim}
+                   MultiIndex key                         Columns
+--------------------------------------------------+---------------------
+                                                  | count() err(count())
+mass           q1*q2 < 0 mt1         mt2          |
+[-inf, 0.0)    fail      [-inf, 0.2) [-inf, 0.2)  |     0.0          0.0
+                                     [0.2, 0.5)   |     0.0          0.0
+                                     [0.5, inf)   |     0.0          0.0
+                         [0.2, 0.5)  [-inf, 0.2)  |     0.0          0.0
+                                     [0.2, 0.5)   |     0.0          0.0
+                                     [0.5, inf)   |     0.0          0.0
+                         [0.5, inf)  [-inf, 0.2)  |     0.0          0.0
+                                     [0.2, 0.5)   |     0.0          0.0
+                                     [0.5, inf)   |     0.0          0.0
+               pass      [-inf, 0.2) [-inf, 0.2)  |     0.0          0.0
+                                     [0.2, 0.5)   |     0.0          0.0
+                                     [0.5, inf)   |     0.0          0.0
+                         [0.2, 0.5)  [-inf, 0.2)  |     0.0          0.0
+                                     [0.2, 0.5)   |     0.0          0.0
+                                     [0.5, inf)   |     0.0          0.0
+                         [0.5, inf)  [-inf, 0.2)  |     0.0          0.0
+                                     [0.2, 0.5)   |     0.0          0.0
+\end{verbatim}
+\end{onlyenv}
+\begin{onlyenv}<2>
+\scriptsize
+\begin{minted}{python}
+>>> from histbook import *
+>>> multihist = Hist(
+...     bin("mass", 100, 0, 500), cut("q1*q2 < 0"),
+...     split("mt1", [0.2, 0.5]), split("mt2", [0.2, 0.5]), fill=df)
+>>> multihist.step("mass")
+\end{minted}
+\mbox{ } \hfill \includegraphics[height=6 cm]{pandhist.pdf} \hfill \mbox{ }
+\end{onlyenv}
+\begin{onlyenv}<3>
+\scriptsize
+\begin{minted}{python}
+>>> from histbook import *
+>>> multihist = Hist(
+...     bin("mass", 100, 0, 500), cut("q1*q2 < 0"),
+...     split("mt1", [0.2, 0.5]), split("mt2", [0.2, 0.5]), fill=df)
+>>> multihist.overlay("q1*q2 < 0").step("mass")
+\end{minted}
+\mbox{ } \hfill \includegraphics[height=6 cm]{pandhist_overlay.pdf} \hfill \mbox{ }
+\end{onlyenv}
+\begin{onlyenv}<4>
+\scriptsize
+\begin{minted}{python}
+>>> from histbook import *
+>>> multihist = Hist(
+...     bin("mass", 100, 0, 500), cut("q1*q2 < 0"),
+...     split("mt1", [0.2, 0.5]), split("mt2", [0.2, 0.5]), fill=df)
+>>> multihist.stack("q1*q2 < 0").area("mass")
+\end{minted}
+\mbox{ } \hfill \includegraphics[height=6 cm]{pandhist_stack.pdf} \hfill \mbox{ }
+\end{onlyenv}
+\begin{onlyenv}<5>
+\scriptsize
+\begin{minted}{python}
+>>> from histbook import *
+>>> multihist = Hist(
+...     bin("mass", 100, 0, 500), cut("q1*q2 < 0"),
+...     split("mt1", [0.2, 0.5]), split("mt2", [0.2, 0.5]), fill=df)
+>>> multihist.beside("q1*q2 < 0").step("mass")
+\end{minted}
+\mbox{ } \hfill \includegraphics[height=6 cm]{pandhist_trellis.pdf} \hfill \mbox{ }
+\end{onlyenv}
+\begin{onlyenv}<6>
+\scriptsize
+\begin{minted}{python}
+>>> from histbook import *
+>>> multihist = Hist(
+...     bin("mass", 100, 0, 500), cut("q1*q2 < 0"),
+...     split("mt1", [0.2, 0.5]), split("mt2", [0.2, 0.5]), fill=df)
+>>> multihist.below("mt1").beside("mt2").step("mass")
+\end{minted}
+\mbox{ } \hfill \includegraphics[height=6 cm]{pandhist_double_trellis.pdf} \hfill \mbox{ }
+\end{onlyenv}
+\begin{onlyenv}<7>
+\scriptsize
+\begin{minted}{python}
+>>> from histbook import *
+>>> multihist = Hist(
+...     bin("mass", 100, 0, 500), cut("q1*q2 < 0"),
+...     split("mt1", [0.2, 0.5]), split("mt2", [0.2, 0.5]), fill=df)
+>>> multihist.below("mt1").beside("mt2").overlay("q1*q2 < 0").step("mass")
+\end{minted}
+\mbox{ } \hfill \includegraphics[height=6 cm]{pandhist_double_trellis_overlay.pdf} \hfill \mbox{ }
+\end{onlyenv}
+\end{frame}
+
 \begin{frame}{From ``Pandas DataFrames for F.A.S.T.\ binned analysis at CMS''}
 \begin{center}
 \only<1>{\includegraphics[width=0.75\linewidth]{fast-slide-0.png}}\only<2>{\includegraphics[width=0.75\linewidth]{fast-slide-2.png}}
@@ -527,6 +637,34 @@ Fluidly convert between MultiIndexes and columns with {\normalsize\mintinline{py
 \end{minipage} \hspace{-0.75 cm}}
 \vspace{8 cm}
 \end{frame}
+
+\begin{frame}{}
+\huge
+\vspace{0.5 cm}
+\begin{center}
+\textcolor{darkblue}{Advanced histogramming}
+
+\large
+\vspace{0.5 cm}
+very physics-specific
+\end{center}
+\end{frame}
+
+\begin{frame}{Advanced histogramming}
+\Large
+\vspace{0.5 cm}
+The histograms themselves, however, are more sophisticated in particle physics software than elsewhere.
+
+\begin{itemize}
+\item 
+
+
+
+\end{itemize}
+
+
+\end{frame}
+
 
 
 
