@@ -253,7 +253,7 @@ Or will it be {\it part} of a ROOT {\it implementation} of distributed DAG proce
 
 \large
 \vspace{0.5 cm}
-strangely physics-specific
+strangely physics-specific, but shouldn't be
 \end{center}
 \end{frame}
 
@@ -448,6 +448,51 @@ event["MET"]["phi"] - event["jet"]["phi"]
 \includegraphics[width=\linewidth]{dremel-paper-cropped.png}
 \end{columns}
 \end{uncoverenv}
+\end{frame}
+
+\begin{frame}{}
+\huge
+\vspace{0.5 cm}
+\begin{center}
+\textcolor{darkblue}{Indexed analysis}
+
+\large
+\vspace{0.5 cm}
+not well-known in our field
+\end{center}
+\end{frame}
+
+\begin{frame}{What is indexing?}
+\large
+\vspace{0.5 cm}
+\textcolor{darkblue}{\Large A way of organizing analysis:}
+
+\vspace{0.25 cm}
+\begin{itemize}\setlength{\itemsep}{0.25 cm}
+\item PAW/HBOOK histograms were indexed by {\it integers} (!)
+\item ROOT histograms are indexed by {\it string names}
+\item ROOT TTrees are indexed by {\it integer entries}
+\item Excel spreadsheets are indexed by {\it integer row/column IDs}
+\item SQL tables are indexed by {\it unordered sets}
+\item Pandas DataFrames are indexed by {\it ordered, structured series}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Pandas is not a TTree replacement!}
+\large
+\vspace{0.5 cm}
+Most of Pandas's functionality is about manipulating data by index, and the whole DataFrame must fit in memory.
+
+\small
+\begin{minted}{python}
+result = left.join(right, how="inner")
+\end{minted}
+\large
+
+\includegraphics[width=0.7\linewidth]{merging_join_multiindex_inner.png}
+
+\vspace{0.5 cm}
+None (?) of TTree's functionality is about manipulating data by index, and it's focused on lazily loading large datasets.
 \end{frame}
 
 
