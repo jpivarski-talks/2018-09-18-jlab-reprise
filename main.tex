@@ -469,12 +469,12 @@ not well-known in our field
 
 \vspace{0.25 cm}
 \begin{itemize}\setlength{\itemsep}{0.25 cm}
-\item PAW/HBOOK histograms were indexed by {\it integers} (!)
-\item ROOT histograms are indexed by {\it string names}
-\item ROOT TTrees are indexed by {\it integer entries}
-\item Excel spreadsheets are indexed by {\it integer row/column IDs}
-\item SQL tables are indexed by {\it unordered sets}
-\item Pandas DataFrames are indexed by {\it ordered, structured series}
+\item PAW/HBOOK histograms were indexed by \underline{\it integer IDs}
+\item ROOT histograms are indexed by \underline{\it string names}
+\item ROOT TTrees are indexed by \underline{\it integer entry numbers}
+\item Excel spreadsheets are indexed by \underline{\it integer row and letter column IDs}
+\item SQL tables are indexed by \underline{\it unordered sets}
+\item Pandas DataFrames are indexed by \underline{\it ordered, structured series}
 \end{itemize}
 \end{frame}
 
@@ -494,6 +494,40 @@ result = left.join(right, how="inner")
 \vspace{0.5 cm}
 None (?) of TTree's functionality is about manipulating data by index, and it's focused on lazily loading large datasets.
 \end{frame}
+
+\begin{frame}[fragile]{Pandas DataFrames resemble histograms, not TTrees}
+\large
+\vspace{0.5 cm}
+Histograms are mappings from intervals to weighted counts and their errors.
+
+\vspace{0.5 cm}
+Profiles are mappings from intervals to weighted means and standard deviations.
+
+\vspace{0.5 cm}
+Pandas has an interval key type, as well as MultiIndexes for multiple dimensions.
+
+\vspace{0.5 cm}
+Since the index is explicit, rather than by position in an array, there's no distinction between sparse and dense histograms. (Drop zero-valued rows and impute zero on merge.)
+
+\vspace{0.5 cm}
+Fluidly convert between MultiIndexes and columns with {\normalsize\mintinline{python}{pivot_table()}}.
+
+\vspace{0.5 cm}
+\textcolor{gray}{(Stop making arrays and {\normalsize\mintinline{python}{std::maps}} of TH3!)}
+\end{frame}
+
+\begin{frame}{From ``Pandas DataFrames for F.A.S.T.\ binned analysis at CMS''}
+\begin{center}
+\only<1>{\includegraphics[width=0.75\linewidth]{fast-slide-0.png}}\only<2>{\includegraphics[width=0.75\linewidth]{fast-slide-2.png}}
+\end{center}
+
+\vspace{-8 cm}
+\hfill \mbox{\begin{minipage}{2 cm}
+\small Pandas DataFrames filled by \\ \textcolor{darkblue}{AlphaTwirl}, analyzed by \\ \textcolor{darkblue}{F.A.S.T.}
+\end{minipage} \hspace{-0.75 cm}}
+\vspace{8 cm}
+\end{frame}
+
 
 
 \end{document}
