@@ -507,13 +507,13 @@ Profiles are mappings from intervals to weighted means and standard deviations.
 Pandas has an interval key type, as well as MultiIndexes for multiple dimensions.
 
 \vspace{0.5 cm}
-Since the index is explicit, rather than by position in an array, there's no distinction between sparse and dense histograms. (Drop zero-valued rows and impute zero on merge.)
+\uncover<2->{Since the index is explicit, rather than by position in an array, there's no distinction between sparse and dense histograms. (Drop zero-valued rows and impute zero on merge.)}
 
 \vspace{0.5 cm}
-Fluidly convert between MultiIndexes and columns with {\normalsize\mintinline{python}{pivot_table()}}.
+\uncover<3->{Fluidly convert between MultiIndexes and columns with {\normalsize\mintinline{python}{pivot_table()}}.}
 
 \vspace{0.5 cm}
-\textcolor{gray}{(Stop making arrays and {\normalsize\mintinline{python}{std::maps}} of TH3!)}
+\uncover<4->{\textcolor{gray}{(Stop making arrays and {\normalsize\mintinline{python}{std::maps}} of TH3!)}}
 \end{frame}
 
 \begin{frame}[fragile]{Indexed analysis}
