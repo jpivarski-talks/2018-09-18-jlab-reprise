@@ -206,27 +206,44 @@ DAG: Directed Acyclic Graph of dependencies between subtasks.
 
 Some would say this is what big data processing \underline{\it is}.
 
-\vspace{0.5 cm}
-\begin{uncoverenv}<2->
+\vspace{1 cm}
 Many frameworks distribute work this way:
 
 \vspace{0.2 cm}
 \hfill \begin{minipage}{0.95\linewidth}
 \textcolor{darkblue}{Spark} (JVM), \textcolor{darkblue}{Dask}, \textcolor{darkblue}{Joblib}, \textcolor{darkblue}{Parsl} (Python), \textcolor{darkblue}{Storm} (continuous), \textcolor{darkblue}{Thrill} (C++), \textcolor{darkblue}{DAGMan} (HTCondor), \textcolor{darkblue}{TensorFlow} (fitting)\ldots
 \end{minipage}
-\end{uncoverenv}
 
-\vspace{0.5 cm}
-\begin{uncoverenv}<3->
-To use these frameworks, one must
+\vspace{1 cm}
+Physics software is embracing this approach:
+
 \begin{itemize}
-\item express user tasks as DAG nodes (e.g.\ ROOT RDataFrame);
-\item serialize user functions on the driver and load user data on the workers in accordance to the framework's way of doing things.
+\item RDataFrame in ROOT
+\item Dozens of examples at CHEP
 \end{itemize}
-\end{uncoverenv}
 \end{columns}
 \end{frame}
 
+\begin{frame}{RDataFrame from the ROOT Workshop (last week)}
+\vspace{0.25 cm}
+\only<1>{\includegraphics[width=\linewidth]{rdataframe-use-case-1.png}}
+\only<2>{\includegraphics[width=\linewidth]{rdataframe-use-case-2.png}}
+\end{frame}
+
+\begin{frame}{But how will it develop?}
+\Large
+\vspace{0.5 cm}
+\begin{columns}
+\column{0.9\linewidth}
+Will RDataFrame be a {\it programming model} that {\it interfaces} with distributed processing systems such as Spark?
+
+\vspace{0.5 cm}
+Or will it be {\it part} of a ROOT {\it implementation} of distributed DAG processing? A new PROOF, for instance?
+\end{columns}
+
+\vspace{1 cm}
+\uncover<2->{\textcolor{darkblue}{Distributing computational tasks with dependencies is a good example of a non-domain-specific problem.}}
+\end{frame}
 
 
 
