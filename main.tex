@@ -190,7 +190,7 @@ Convince the world to start using physics analysis techniques so that they will 
 
 \large
 \vspace{0.5 cm}
-not HEP-specific
+not physics-specific
 \end{center}
 \end{frame}
 
@@ -682,6 +682,72 @@ The histograms themselves, however, are more sophisticated in particle physics s
 \end{center}
 \end{frame}
 
+\begin{frame}{Machine learning versus ansatz fitting}
+\Large
+\vspace{0.5 cm}
+\textcolor{darkblue}{Machine learning:} \textcolor{darkorange}{\bf it's just fitting.}
 
+\large
+\vspace{0.5 cm}
+\uncover<2->{It's fitting with thousands of free parameters, where the goal is not to find a global minimum or understand the limiting value of those parameters, but to generate, recognize, or classify patterns.}
+
+\vspace{0.5 cm}
+\uncover<3->{Ansatz fitting, however, optimizes a theory-driven function of few parameters, and the exact shape of the minimum has implications for the theory.}
+
+\vspace{0.5 cm}
+\uncover<4->{\textcolor{darkblue}{\Large Qualitatively different purposes:} \textcolor{darkorange}{\Large\bf both needed.}}
+
+\vspace{0.5 cm}
+\uncover<5->{We can look to industry for machine learning innovations, but the best ansatz fitters are in our field: RooFit, GooFit, HistFitter, HistFactory, Combiner, pyhf\ldots}
+\end{frame}
+
+\begin{frame}{Areas of overlap}
+\Large
+\vspace{1 cm}
+\begin{columns}
+\column{1.03\linewidth}
+\begin{columns}[t]
+\column{0.5\linewidth}
+\mbox{\hspace{0.25 cm}\underline{What they've got}}
+
+\vspace{0.25 cm}
+\begin{enumerate}
+\item \only<1-3>{Distributed DAG processing}\only<4>{\textcolor{darkorange}{\bf Distributed DAG processing}}
+\item \only<1-2>{Indexed analysis}\only<3>{\textcolor{darkorange}{\bf Indexed analysis}}\only<4>{Indexed analysis}
+\item \only<1>{Machine learning}\only<2>{\textcolor{darkorange}{\bf Machine learning}}\only<3-4>{Machine learning}
+\end{enumerate}
+
+\column{0.5\linewidth}
+\mbox{\hspace{0.45 cm}\underline{What we'd need}}
+
+\vspace{0.25 cm}
+\begin{enumerate}
+\item \only<1>{Nested data structures}\only<2>{\textcolor{darkorange}{\bf Nested data structures}}\only<3-4>{Nested data structures}
+\item \only<1-2>{Advanced histogramming}\only<3>{\textcolor{darkorange}{\bf Advanced histogramming}}\only<4>{Advanced histogramming}
+\item \only<1-3>{Ansatz fitting}\only<4>{\textcolor{darkorange}{\bf Ansatz fitting}}
+\end{enumerate}
+\end{columns}
+
+\large
+\vspace{1 cm}
+\only<1>{\mbox{ }\vspace{3\baselineskip}}\only<2>{\textcolor{darkorange}{\bf Nearly all ML techniques require flattened or sequences of flattened data,} \\ but we have real problems that need nested data: e.g.\ classifying $N_i$ jets per event (nested, unordered sets). RNNs and LSTMs (for non-nested, ordered sequences) are designed for a different data type!}\only<3>{\textcolor{darkorange}{\bf F.A.S.T.\ and histbook are incorporating Pandas indexing into advanced histogramming.}\vspace{2\baselineskip}}\only<4>{\textcolor{darkorange}{\bf As fits get bigger, they may need to be distributed, for instance with iterative map-reduce.}\vspace{2\baselineskip}}
+
+\mbox{ }
+\end{columns}
+\end{frame}
+
+\begin{frame}{Conclusions}
+\Large
+\vspace{0.75 cm}
+\textcolor{darkblue}{Data analysis tools outside of particle physics are mature but not a perfect fit to our needs.}
+
+\vspace{0.35 cm}
+\begin{itemize}\setlength{\itemsep}{0.35 cm}
+\item Some of what we need is available now: can we use it?
+\item Some exists only as physics software: can it interoperate?
+\item Some of what's available is unlike anything we do now:\\an opportunity to do better physics?
+\item<2-> The door swings both ways: we have things to teach the world!
+\end{itemize}
+\end{frame}
 
 \end{document}
