@@ -245,6 +245,210 @@ Or will it be {\it part} of a ROOT {\it implementation} of distributed DAG proce
 \uncover<2->{\textcolor{darkblue}{Distributing computational tasks with dependencies is a good example of a non-domain-specific problem.}}
 \end{frame}
 
+\begin{frame}{}
+\huge
+\vspace{0.5 cm}
+\begin{center}
+\textcolor{darkblue}{Nested data structures}
+
+\large
+\vspace{0.5 cm}
+strangely physics-specific
+\end{center}
+\end{frame}
+
+\begin{frame}{Nested data structures}
+\large
+\vspace{0.5 cm}
+\begin{columns}[t]
+\column{0.5\linewidth}
+\mbox{ } \hfill \includegraphics[width=0.75\linewidth]{muons-as-objects.png} \hfill \mbox{ }
+
+\vspace{0.25 cm}
+\begin{uncoverenv}<2->
+Objects are essential in physics analysis.
+
+\vspace{0.25 cm}
+Many physicists consider TTrees with {\tt\small std::vector<float>} branches to be ``minimal'' or ``flat.''
+\end{uncoverenv}
+
+\column{0.5\linewidth}
+\mbox{ } \hfill \includegraphics[width=0.75\linewidth]{muons-as-a-table.png} \hfill \mbox{ }
+
+\vspace{0.25 cm}
+\begin{uncoverenv}<3->
+Most data analysis tools have an SQL mindset, with rectangular data tables.
+
+\vspace{0.25 cm}
+\textcolor{darkblue}{Objects $\to$ rectangular tables is lossy!}
+
+\vspace{0.25 cm}
+Performance claims often start the stopwatch after this ``data cleaning.''
+\end{uncoverenv}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Nested data structures}
+\large
+\vspace{0.5 cm}
+\begin{tikzpicture}[>=latex]
+\node[rectangle callout, draw, inner sep=5 pt, callout relative pointer={(200:1 cm)}, text width=0.46\linewidth] {\large Spark/Parquet/Arrow/HDF5/Pandas has nested objects!};
+\end{tikzpicture} \hfill \uncover<2->{\begin{tikzpicture}[>=latex]
+\node[rectangle callout, draw, inner sep=5 pt, callout relative pointer={(-200:-1 cm)}, text width=0.46\linewidth] {\large Nested data are in these projects' scope, but as a second-class citizen.};
+\end{tikzpicture}}
+
+\vspace{0.75 cm}
+\begin{itemize}\setlength{\itemsep}{0.35 cm}
+\item<3-> \textcolor{darkblue}{Spark} DataFrames allow arrays of structs, but using them involves a cumbersome explode-groupby or ``drop to RDDs,'' giving up performance.
+\item<4-> \textcolor{darkblue}{Parquet} and \textcolor{darkblue}{Arrow} specifications define lists of records, but they haven't been implemented in C++ and therefore Python yet (last time I checked).
+\item<5-> \textcolor{darkblue}{HDF5} has lists of compounds, but they're rowwise (``unsplit'').
+\item<6-> \textcolor{darkblue}{Pandas} can put arbitrary Python objects in DataFrames, but most operations only apply to numbers.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Nested data structures}
+\tiny
+\vspace{0.25 cm}
+\hfill \includegraphics[height=1 cm]{uproot-logo.pdf}
+
+\vspace{-1.1 cm}
+\begin{onlyenv}<1>\begin{minted}{python}
+>>> import uproot
+>>> t = uproot.open("tests/samples/HZZ.root")["events"]
+>>> t.pandas.df(["MET_px", "Muon_Px", "Electron_Px"], entrystart=-20, flatten=False)
+\end{minted}
+\end{onlyenv}\begin{onlyenv}<2>\begin{minted}{python}
+>>> import uproot
+>>> t = uproot.open("tests/samples/HZZ.root")["events"]
+>>> t.pandas.df(["MET_px", "Muon_Px", "Electron_Px"], entrystart=-20, flatten=True)
+\end{minted}
+\end{onlyenv}
+\begin{onlyenv}<1>\begin{verbatim}
+         MET_px                  Muon_Px              Electron_Px
+2401   2.998099              [-1.492689]                       []
+2402  27.944883              [-4.560287]                       []
+2403   3.787466              [-9.715589]                       []
+2404   9.378232             [-31.072098]                       []
+2405 -17.310106   [47.484627, 4.6953125]                       []
+2406 -81.965927   [74.75617, -20.911081]                       []
+2407  -9.059591  [25.786427, -29.265024]                       []
+2408  25.649775                       []                       []
+2409  29.691553               [-24.7368]                       []
+2410 -25.754967  [53.005814, -30.208649]  [-37.681973, 18.453588]
+2411  -2.426847    [55.7203, -26.914448]                       []
+2412 -15.611773              [14.896802]                       []
+2413  18.921183             [-24.158083]                       []
+2414 -11.730723              [-9.204197]                       []
+2415 -10.648725   [34.506527, -31.56778]                       []
+2416 -14.607650             [-39.285824]                       []
+2417  22.208313              [35.067146]                       []
+2418  18.101646             [-29.756786]                       []
+2419  79.875191              [1.1418698]                       []
+2420  19.713749              [23.913206]                       []
+\end{verbatim}
+\vspace{1.7 cm}
+\end{onlyenv}\begin{onlyenv}<2>\begin{verbatim}
+                   MET_px     Muon_Px  Electron_Px
+entry subentry
+2401  0          2.998099  -1.492689          NaN
+2402  0         27.944883  -4.560287          NaN
+2403  0          3.787466  -9.715589          NaN
+2404  0          9.378232 -31.072098          NaN
+2405  0        -17.310106  47.484627          NaN
+      1               NaN   4.695312          NaN
+2406  0        -81.965927  74.756172          NaN
+      1               NaN -20.911081          NaN
+2407  0         -9.059591  25.786427          NaN
+      1               NaN -29.265024          NaN
+2408  0         25.649775        NaN          NaN
+2409  0         29.691553 -24.736799          NaN
+2410  0        -25.754967  53.005814   -37.681973
+      1               NaN -30.208649    18.453588
+2411  0         -2.426847  55.720299          NaN
+      1               NaN -26.914448          NaN
+2412  0        -15.611773  14.896802          NaN
+2413  0         18.921183 -24.158083          NaN
+2414  0        -11.730723  -9.204197          NaN
+2415  0        -10.648725  34.506527          NaN
+      1               NaN -31.567780          NaN
+2416  0        -14.607650 -39.285824          NaN
+2417  0         22.208313  35.067146          NaN
+2418  0         18.101646 -29.756786          NaN
+2419  0         79.875191   1.141870          NaN
+2420  0         19.713749  23.913206          NaN
+\end{verbatim}
+\end{onlyenv}
+
+\vspace{-5 cm}
+\hfill \begin{minipage}{0.33\linewidth}
+\large
+\textcolor{darkblue}{In some cases, maybe we're using the wrong idiom:} instead of working with structured values, Pandas prefers structured indexes.
+\end{minipage}
+\vspace{5 cm}
+\end{frame}
+
+\begin{frame}[fragile]{Nested data structures}
+\large
+\vspace{0.4 cm}
+But that shouldn't be the only way: we {\it should} be able to use our data models and algorithms, even if we run them in non-physics frameworks.
+
+\begin{uncoverenv}<2->
+\vspace{0.5 cm}
+This is my main project now: \textcolor{darkblue}{fast manipulation of columnar data.}
+
+\vspace{0.25 cm}
+\hfill \includegraphics[height=1 cm]{awkward-logo.pdf}
+
+\vspace{0.25 cm}
+\vspace{-1 cm}
+\scriptsize
+\begin{columns}[t]
+\column{0.405\linewidth}
+\underline{\large General programming model}
+
+\begin{minted}{python}
+@numba.jit    # LLVM-compiled Python
+def deltaphi(event):
+    metphi = event.MET.phi
+    for jet in event.jets:
+        yield metphi - jet.phi
+\end{minted}
+
+\column{0.525\linewidth}
+\underline{\large Numpy-like broadcasting}
+
+\vspace{\baselineskip}
+\begin{minted}{python}
+# one per event       one per particle
+event["MET"]["phi"] - event["jet"]["phi"]
+\end{minted}
+\end{columns}
+\end{uncoverenv}
+
+\large
+\vspace{0.7 cm}
+\uncover<3->{Also, this {\it should} be of wider interest than physics: developers of Arrow, Dask, and XND ($\sim$Numpy 2.0) are curious about it.}
+\end{frame}
+
+\begin{frame}{Missed opportunity}
+\begin{center}
+\only<1>{\includegraphics[width=\linewidth]{history.pdf}}\only<2->{\includegraphics[width=0.7\linewidth]{history.pdf}}
+\end{center}
+\begin{uncoverenv}<2->
+\begin{columns}
+\column{0.43\linewidth}
+\begin{center}
+\small
+{\Large Google Dremel paper (2010):}
+
+\textcolor{gray}{(inspired Parquet)}
+\end{center}
+
+\column{0.65\linewidth}
+\includegraphics[width=\linewidth]{dremel-paper-cropped.png}
+\end{columns}
+\end{uncoverenv}
+\end{frame}
 
 
 \end{document}
